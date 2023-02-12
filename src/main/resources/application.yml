@@ -1,0 +1,16 @@
+server:
+  port: 8001
+spring:
+  devtools:
+    restart:
+      enabled: true
+      exclude: static/**
+  datasource:
+    url: jdbc:mysql://localhost:3306/educational?characterEncoding=utf8
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  mvc:
+    static-path-pattern: /**
+mybatis:
+  mapper-locations: classpath:mapper/*xml
