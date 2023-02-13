@@ -6,6 +6,8 @@ import com.kdgx.service.LoginusersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class LoginusersServiceImpl implements LoginusersService {
 
@@ -14,5 +16,25 @@ public class LoginusersServiceImpl implements LoginusersService {
     @Override
     public Loginusers loginAllUser(Loginusers entity) {
         return loginusersMapper.loginAllUser(entity);
+    }
+
+    @Override
+    public List<Loginusers> selectLoginUsers() {
+        return loginusersMapper.selectLoginUsers();
+    }
+
+    @Override
+    public int insertlogin(Loginusers entity) {
+        return loginusersMapper.insertlogin(entity);
+    }
+
+    @Override
+    public int deleteLogin(Loginusers entity) {
+        return loginusersMapper.deleteLogin(entity);
+    }
+
+    @Override
+    public int updateLogin(Loginusers entity) {
+        return loginusersMapper.updateLogin(entity);
     }
 }

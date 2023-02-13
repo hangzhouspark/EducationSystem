@@ -10,6 +10,23 @@
           and lisadmin = #{lisadmin}
     </select>
 
+    <select id="selectLoginUsers" resultType="com.kdgx.entity.Loginusers">
+        select *
+        from loginusers
+    </select>
+
+    <insert id="insertlogin" parameterType="com.kdgx.entity.Loginusers">
+        insert into loginusers(lusername,lpassword,lisadmin) values (#{lusername},#{lpassword},#{lisadmin})
+    </insert>
+
+    <delete id="deleteLogin" parameterType="com.kdgx.entity.Loginusers">
+        delete from loginusers where lid = #{lid}
+    </delete>
+
+    <update id="updateLogin" parameterType="com.kdgx.entity.Loginusers">
+        update loginusers set lusername = #{lusername},lpassword = #{lpassword} where lid = #{lid}
+    </update>
+
 
 </mapper>
 
