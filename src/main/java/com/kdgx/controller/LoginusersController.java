@@ -27,34 +27,49 @@ public class LoginusersController {
     /**
      * 登陆
      *
-     * @param entity
+     * @param users
      * @param request
      * @return
      */
     @RequestMapping("loginAllUser")
-    public String loginAllUser(HttpServletRequest request) {
-        String lusername = request.getParameter("lusername");
-        String lpassword = request.getParameter("lpassword");
-        int lisadmin = Integer.parseInt(request.getParameter("lisadmin"));
-        Loginusers entity = new Loginusers();
-        entity.setLusername(lusername);
-        entity.setLpassword(lpassword);
-        entity.setLisadmin(lisadmin);
-        Loginusers loginMess = loginusersService.loginAllUser(entity);
-        //System.out.println(loginMess);
-        if (loginMess != null) {
-            if (loginMess.getLisadmin() == 0) {
-                return "StudentLogin";
-            } else if (loginMess.getLisadmin() == 1) {
-                request.getSession().setAttribute("loginMess", loginMess);
-                return "TeacherLogin";
-            } else {
-                return "AdminLogin";
-            }
+    @ResponseBody
+    public R loginAllUser(Loginusers users, HttpServletRequest request) {
+        Loginusers logilog = loginusersService.loginAllUser(users);
+        if (logilog != null) {
+            request.getSession().setAttribute("logilog", logilog);
+            return R.ok().data("logilog", logilog);
         } else {
-            return "LoginPage";
+            return R.error().message("登录失败");
         }
     }
+
+    /**
+     * 跳转管理员登录页
+     * @return
+     */
+    @RequestMapping("AdminLogin")
+    public String AdminLogin() {
+        return "AdminLogin";
+    }
+
+    /**
+     * 跳转老师登录页
+     * @return
+     */
+    @RequestMapping("TeacherLogin")
+    public String TeacherLogin() {
+        return "TeacherLogin";
+    }
+
+    /**
+     * 跳转学生登录页
+     * @return
+     */
+    @RequestMapping("StudentLogin")
+    public String StudentLogin() {
+        return "StudentLogin";
+    }
+
 
     @GetMapping("selectLoginUsers")
     @ResponseBody
@@ -69,13 +84,13 @@ public class LoginusersController {
     }
 
     @RequestMapping("insertlogin")
-    public R insertlogin(@RequestBody Loginusers entity,HttpServletRequest request) {
+    public R insertlogin(@RequestBody Loginusers entity, HttpServletRequest request) {
 //      String lusername = request.getParameter("lusername");
 //      String lpassword = request.getParameter("lpassword");
 //      int lisadmin = Integer.parseInt(request.getParameter("lisadmin"));
         int i = loginusersService.insertlogin(entity);
         if (i > 0) {
-            return R.ok().data("i",i);
+            return R.ok().data("i", i);
         }
         return R.error().message("添加失败");
     }

@@ -7,7 +7,6 @@
         from loginusers
         where lusername = #{lusername}
           and lpassword = #{lpassword}
-          and lisadmin = #{lisadmin}
     </select>
 
     <select id="selectLoginUsers" resultType="com.kdgx.entity.Loginusers">
