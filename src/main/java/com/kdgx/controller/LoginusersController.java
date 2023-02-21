@@ -19,13 +19,18 @@ public class LoginusersController {
     @Autowired
     private LoginusersService loginusersService;
 
+    /**
+     * 设置起始页
+     *
+     * @return
+     */
     @RequestMapping("/")
     public String index() {
         return "LoginPage";
     }
 
     /**
-     * 登陆
+     * 登陆账户
      *
      * @param users
      * @param request
@@ -44,7 +49,21 @@ public class LoginusersController {
     }
 
     /**
+     * 获取登录的信息
+     *
+     * @param request
+     * @return
+     */
+    @GetMapping("LoginMag")
+    @ResponseBody
+    public R LoginMag(HttpServletRequest request) {
+        Loginusers LoginMag = (Loginusers) request.getSession().getAttribute("logilog");
+        return R.ok().data("LoginMag", LoginMag);
+    }
+
+    /**
      * 跳转管理员登录页
+     *
      * @return
      */
     @RequestMapping("AdminLogin")
@@ -54,6 +73,7 @@ public class LoginusersController {
 
     /**
      * 跳转老师登录页
+     *
      * @return
      */
     @RequestMapping("TeacherLogin")
@@ -63,6 +83,7 @@ public class LoginusersController {
 
     /**
      * 跳转学生登录页
+     *
      * @return
      */
     @RequestMapping("StudentLogin")
@@ -71,6 +92,11 @@ public class LoginusersController {
     }
 
 
+    /**
+     * 查看登录账号信息
+     *
+     * @return
+     */
     @GetMapping("selectLoginUsers")
     @ResponseBody
     public R selectLoginUsers() {
