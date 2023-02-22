@@ -23,6 +23,7 @@ public interface LoginusersService {
 
     /**
      * 添加登录账户
+     *
      * @param entity
      * @return
      */
@@ -30,6 +31,7 @@ public interface LoginusersService {
 
     /**
      * 删除登录账户
+     *
      * @param entity
      * @return
      */
@@ -37,11 +39,11 @@ public interface LoginusersService {
 
     /**
      * 更新登录用户数据
+     *
      * @param entity
      * @return
      */
     public int updateLogin(Loginusers entity);
-
 
 
 }

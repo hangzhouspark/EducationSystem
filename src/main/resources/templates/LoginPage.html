@@ -70,17 +70,23 @@
                         "lpassword": $("#lpassword").val().trim()
                     },
                     success: function (data) {
-                        if (data.data.logilog.lisadmin == 0) {
-                            alert("管理员登陆");
-                            window.location.href = "./AdminLogin"
-                        } else if (data.data.logilog.lisadmin == 1) {
-                            alert("员工登陆");
-                            window.location.href = "./TeacherLogin";
-                        } else if (data.data.logilog.lisadmin == 2) {
-                            alert("学生登陆");
-                            window.location.href = "./StudentLogin";
+                        console.log(data)
+                        if (data.code == 20000) {
+                            if (data.data.logilog.lisadmin == 0) {
+                                alert("管理员登陆");
+                                window.location.href = "./AdminLogin"
+                            } else if (data.data.logilog.lisadmin == 1) {
+                                alert("员工登陆");
+                                window.location.href = "./TeacherLogin";
+                            } else if (data.data.logilog.lisadmin == 2) {
+                                alert("学生登陆");
+                                window.location.href = "./StudentLogin";
+                            } else {
+                                alert("查询不到身份");
+                            }
                         } else {
-                            alert(data.message);
+                            alert(data.message)
+                            location.reload()
                         }
                     }
                 })

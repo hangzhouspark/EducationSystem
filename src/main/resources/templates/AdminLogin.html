@@ -5,13 +5,26 @@
     <title>管理员后台管理</title>
     <link rel="stylesheet" type="text/css" href="/css/Main.css"/>
     <script src="/js/jquery-3.4.1.js" charset="utf-8"></script>
+    <script src="/js/checking.js" charset="utf-8"></script>
     <script>
         $(function () {
             Loginname();
-            SelectLoginMag()
+            //  SelectLoginMag()
         })
 
+        /**
+         * 操作成功跳转主页
+         * @constructor
+         */
+        function BackMain() {
+            Loginname();
+            SelectLoginMag();
+        }
 
+        /**
+         * 显示欢迎登录名
+         * @constructor
+         */
         function Loginname() {
             $.ajax({
                 type: 'get',
@@ -19,6 +32,7 @@
                 data: {},
                 dataType: 'json',
                 success: function (data) {
+                    console.log(data)
                     var mag = data.data.LoginMag.lusername;
                     var html = mag;
                     $("#strong1").append(html);
@@ -27,6 +41,10 @@
             })
         }
 
+        /**
+         * 查询登录账户信息
+         * @constructor
+         */
         function SelectLoginMag() {
             $.ajax({
                 type: 'get',
@@ -34,6 +52,7 @@
                 data: {},
                 dataType: 'json',
                 success: function (data) {
+                    $('.right').html("")
                     var html = "<table cellpadding= '0' cellspacing= '0'  border=\"1\" align= 'center' id='tableAdmin'>";
                     html += "<tr align='center'><td>序号</td><td>用户账户</td><td>用户类型</td><td>操作</td></tr>"
                     if (data.code == 20000) {
@@ -48,7 +67,7 @@
                             } else {
                                 html += "<td>学生</td>"
                             }
-                            html += "<td><a href='#'>删除用户</a></td>";
+                            html += "<td ><a href='#' onclick='isDeleteLogin(" + comment.lid + ")'><font color='red'>删除用户</font></a></td>";
                         })
                         html += "</tr></table>";
                     } else {
@@ -58,6 +77,84 @@
                 }
             })
         }
+
+        /**
+         * 跳转登录界面
+         * @constructor
+         */
+        function InsertLoginMag() {
+            //清空right页面
+            $('.right').html("")
+            var html = "<div style='margin-top: 5px'><font style='font-size: 20px'>登录账号:</font><input style='margin-left: 15px;' type=\"text\" name=\"lusername\" id=\"lusername\" onblur=\"checkInput('lusername')\">"
+            html += "<span id=\"lusernameTitle\"></span><br/>"
+            html += "<font style='font-size: 20px'>登录密码:</font><input style='margin-left: 15px;' type=\"text\" name=\"lpassword\" id=\"lpassword\" onblur=\"checkInput('lpassword')\">"
+            html += "<span id=\"lpasswordTitle\"></span><br/>"
+            html += "<font style='font-size: 20px'>账户类型:</font><select id='testSelect' style='margin-left: 15px;'>\n" +
+                "      <option value=\"0\">管理员账户</option>\n" +
+                "      <option value=\"1\" >老师账户</option>\n" +
+                "      <option value=\"2\" selected>学生账户</option>\n" +
+                "  </select><br/>"
+            html += "<button onclick=\"isInsertLogin()\" style='margin-top: 15px;text-align: center;margin-left: 124px'>添加</button></div>"
+            $(".right").append(html);
+        }
+
+        /**
+         * 信息登录信息
+         */
+        function isInsertLogin() {
+            if (checkInput('lusername') && checkInput('lpassword')) {
+                $.ajax({
+                    type: 'post',
+                    url: './insertlogin',
+                    timeout: 10000,
+                    data: {
+                        "lusername": $("#lusername").val().trim(),
+                        "lpassword": $("#lpassword").val().trim(),
+                        "lisadmin": $('#testSelect option:selected').val()
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.code == 20000) {
+                            alert("添加成功");
+                            BackMain();
+                        } else {
+                            alert("添加失败");
+                            InsertLoginMag();
+                        }
+                    }
+
+
+                })
+            }
+        }
+
+        /**
+         * 删除登录信息
+         */
+        function isDeleteLogin(lid) {
+            $.ajax({
+                type: 'post',
+                url: './deleteLogin',
+                timeout: 10000,
+                data: {
+                    "lid": lid
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.code == 20000) {
+                        alert("删除成功");
+                        BackMain();
+                    } else {
+                        alert("删除失败");
+                        BackMain();
+                    }
+                }
+
+
+            })
+        }
+
+
     </script>
 </head>
 <body>
@@ -72,7 +169,7 @@
                 <h3>登录信息管理</h3>
                 <div class="m" style="display:block;">
                     <div onclick="SelectLoginMag()">查看登录账号信息</div>
-                    <div><a href="">新增登录账号</a></div>
+                    <div onclick="InsertLoginMag()">新增登录账号</div>
                     <div><a href="">修改登录账号</a></div>
                 </div>
                 <h3>学生信息管理</h3>

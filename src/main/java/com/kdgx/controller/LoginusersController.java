@@ -104,21 +104,37 @@ public class LoginusersController {
         return R.ok().data("selectLoginUsers", selectLoginUsers);
     }
 
-    @RequestMapping("goinsertlogin")
-    public String goinsertlogin() {
-        return "insertloginPage";
-    }
-
+    /**
+     * 添加登陆账户
+     *
+     * @param entity
+     * @param
+     * @return
+     */
     @RequestMapping("insertlogin")
-    public R insertlogin(@RequestBody Loginusers entity, HttpServletRequest request) {
-//      String lusername = request.getParameter("lusername");
-//      String lpassword = request.getParameter("lpassword");
-//      int lisadmin = Integer.parseInt(request.getParameter("lisadmin"));
+    @ResponseBody
+    public R insertlogin(Loginusers entity) {
         int i = loginusersService.insertlogin(entity);
         if (i > 0) {
-            return R.ok().data("i", i);
+            return R.ok().message("添加成功");
         }
         return R.error().message("添加失败");
+    }
+
+    /**
+     * 删除登陆账户信息
+     *
+     * @param entity
+     * @return
+     */
+    @RequestMapping("deleteLogin")
+    @ResponseBody
+    public R deleteLogin(Loginusers entity) {
+        int i = loginusersService.deleteLogin(entity);
+        if (i > 0) {
+            return R.ok().message("删除成功");
+        }
+        return R.error().message("删除失败");
     }
 
 }
