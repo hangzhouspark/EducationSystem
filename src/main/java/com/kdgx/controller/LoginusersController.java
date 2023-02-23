@@ -158,9 +158,7 @@ public class LoginusersController {
     @RequestMapping("updateLogin")
     @ResponseBody
     public R updateLogin(Loginusers entity) {
-        System.out.println(entity);
         int i = loginusersService.updateLogin(entity);
-        System.out.println(i);
         if (i > 0) {
             return R.ok().message("修改成功");
         }
