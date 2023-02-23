@@ -32,7 +32,6 @@
                 data: {},
                 dataType: 'json',
                 success: function (data) {
-                    console.log(data)
                     var mag = data.data.LoginMag.lusername;
                     var html = mag;
                     $("#strong1").append(html);
@@ -58,16 +57,16 @@
                     if (data.code == 20000) {
                         $.each(data.data.selectLoginUsers, function (i, comment) {
                             html += "<tr align='center'><td>" + comment['lid'] + "</td><td>" + comment['lusername'] + "</td>";
-                            if (data.data.selectLoginUsers.lisadmin == 0) {
+                            if (comment['lisadmin'] == 0) {
                                 html += "<td>管理员</td>"
-                            } else if (data.data.selectLoginUsers.lisadmin == 1) {
+                            } else if (comment['lisadmin'] == 1) {
                                 html += "<td>老师</td>"
-                            } else if (data.data.selectLoginUsers.lisadmin == 2) {
+                            } else if (comment['lisadmin'] == 2) {
                                 html += "<td>学生</td>"
                             } else {
-                                html += "<td>学生</td>"
+                                html += "<td>未知身份</td>"
                             }
-                            html += "<td ><a href='#' onclick='isDeleteLogin(" + comment.lid + ")'><font color='red'>删除用户</font></a></td>";
+                            html += "<td ><a href='#' onclick='isDeleteLogin(" + comment.lid + ")'><font color='red'>删除用户信息</font></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href='#' onclick='UpdataLoginMag(" + comment.lid + ")'><font color='red'>修改用户信息</font></a></td>";
                         })
                         html += "</tr></table>";
                     } else {
@@ -79,7 +78,7 @@
         }
 
         /**
-         * 跳转登录界面
+         * 跳转新增界面
          * @constructor
          */
         function InsertLoginMag() {
@@ -94,12 +93,12 @@
                 "      <option value=\"1\" >老师账户</option>\n" +
                 "      <option value=\"2\" selected>学生账户</option>\n" +
                 "  </select><br/>"
-            html += "<button onclick=\"isInsertLogin()\" style='margin-top: 15px;text-align: center;margin-left: 124px'>添加</button></div>"
+            html += "<button onclick=\"isInsertLogin()\" style='margin-top: 15px;text-align: center;margin-left: 124px'>添加信息</button></div>"
             $(".right").append(html);
         }
 
         /**
-         * 信息登录信息
+         * 新增登录信息
          */
         function isInsertLogin() {
             if (checkInput('lusername') && checkInput('lpassword')) {
@@ -154,6 +153,73 @@
             })
         }
 
+        function UpdataLoginMag(lid) {
+            $.ajax({
+                type: 'get',
+                url: './selectLoginUsersBylid',
+                timeout: 10000,
+                data: {
+                    "lid": lid
+                },
+                dataType: 'json',
+                success: function (data) {
+                    //清空right页面
+                    $('.right').html("")
+                    var html = "<div style='margin-top: 5px'><font style='font-size: 20px'>登录账号:</font><input style='margin-left: 15px;' type=\"text\" name=\"lusername\" id=\"lusername\" onblur=\"checkInput('lusername')\" value='" + data.data.loginusersBylid.lusername + "'>"
+                    html += "<span id=\"lusernameTitle\"></span><br/>"
+                    html += "<font style='font-size: 20px'>登录密码:</font><input style='margin-left: 15px;' type=\"text\" name=\"lpassword\" id=\"lpassword\" onblur=\"checkInput('lpassword')\" value='" + data.data.loginusersBylid.lpassword + "'>"
+                    html += "<span id=\"lpasswordTitle\"></span><br/>"
+                    html += "<input id='lid' type='hidden' value='" + data.data.loginusersBylid.lid + "'>"
+                    // html += "</input><font style='font-size: 20px'>账户类型:</font><select id='testSelect' style='margin-left: 15px;'>\n"
+                    // if (data.data.loginusersBylid.lisadmin == 0) {
+                    //     html += "<option value=\"0\" selected>管理员账户</option><option value=\"1\" >老师账户</option><option value=\"2\" >学生账户</option></select><br/>"
+                    // } else if (data.data.loginusersBylid.lisadmin == 1) {
+                    //     html += "<option value=\"0\">管理员账户</option><option value=\"1\" selected>老师账户</option><option value=\"2\" >学生账户</option></select><br/>"
+                    // } else if (data.data.loginusersBylid.lisadmin == 2) {
+                    //     html += "<option value=\"0\">管理员账户</option><option value=\"1\" >老师账户</option><option value=\"2\" selected>学生账户</option></select><br/>"
+                    // } else {
+                    //     html += "<option>无账户信息</option>"
+                    // }
+                    html += "<button onclick=\"isUpdateLogin()\" style='margin-top: 15px;text-align: center;margin-left: 124px'>修改信息</button></div>"
+                    $(".right").append(html);
+                }
+
+
+            })
+        }
+
+
+        /**
+         * 修改登录信息
+         */
+        function isUpdateLogin() {
+            if (checkInput('lusername') && checkInput('lpassword')) {
+                $.ajax({
+                    type: 'post',
+                    url: './updateLogin',
+                    timeout: 10000,
+                    data: {
+                        "lid": $("#lid").val().trim(),
+                        "lusername": $("#lusername").val().trim(),
+                        "lpassword": $("#lpassword").val().trim()
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data)
+                        if (data.code == 20000) {
+                            alert("修改成功");
+                            BackMain();
+                        } else {
+                            alert("修改失败");
+                            BackMain();
+                        }
+                    }
+
+
+                })
+            }
+        }
+
 
     </script>
 </head>
@@ -169,8 +235,7 @@
                 <h3>登录信息管理</h3>
                 <div class="m" style="display:block;">
                     <div onclick="SelectLoginMag()">查看登录账号信息</div>
-                    <div onclick="InsertLoginMag()">新增登录账号</div>
-                    <div><a href="">修改登录账号</a></div>
+                    <div onclick="InsertLoginMag()">新增登录账号信息</div>
                 </div>
                 <h3>学生信息管理</h3>
                 <div class="m" style="display:block;">
@@ -183,7 +248,6 @@
                     <div><a href="">查看老师信息</a></div>
                     <div><a href="">新增老师信息</a></div>
                     <div><a href="">修改老师信息</a></div>
-                    <div><a href="">菜单管理</a></div>
                 </div>
             </div>
         </div>

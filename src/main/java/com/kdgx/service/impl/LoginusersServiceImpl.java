@@ -13,6 +13,7 @@ public class LoginusersServiceImpl implements LoginusersService {
 
     @Autowired
     private LoginusersMapper loginusersMapper;
+
     @Override
     public Loginusers loginAllUser(Loginusers entity) {
         return loginusersMapper.loginAllUser(entity);
@@ -31,6 +32,11 @@ public class LoginusersServiceImpl implements LoginusersService {
     @Override
     public int deleteLogin(Loginusers entity) {
         return loginusersMapper.deleteLogin(entity);
+    }
+
+    @Override
+    public Loginusers selectLoginUsersBylid(Loginusers entity) {
+        return loginusersMapper.selectLoginUsersBylid(entity);
     }
 
     @Override

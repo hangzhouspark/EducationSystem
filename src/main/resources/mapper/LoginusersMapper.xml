@@ -15,12 +15,21 @@
     </select>
 
     <insert id="insertlogin" parameterType="com.kdgx.entity.Loginusers">
-        insert into loginusers(lusername,lpassword,lisadmin) values (#{lusername},#{lpassword},#{lisadmin})
+        insert into loginusers(lusername, lpassword, lisadmin)
+        values (#{lusername}, #{lpassword}, #{lisadmin})
     </insert>
 
     <delete id="deleteLogin" parameterType="com.kdgx.entity.Loginusers">
-        delete from loginusers where lid = #{lid}
+        delete
+        from loginusers
+        where lid = #{lid}
     </delete>
+
+    <select id="selectLoginUsersBylid" resultType="com.kdgx.entity.Loginusers">
+        select *
+        from loginusers
+        where lid = #{lid}
+    </select>
 
     <update id="updateLogin" parameterType="com.kdgx.entity.Loginusers">
         update loginusers set lusername = #{lusername},lpassword = #{lpassword} where lid = #{lid}

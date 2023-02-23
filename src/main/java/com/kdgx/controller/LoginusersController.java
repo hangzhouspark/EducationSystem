@@ -137,4 +137,35 @@ public class LoginusersController {
         return R.error().message("删除失败");
     }
 
+    /**
+     * 回显单个登录信息
+     * @param entity
+     * @return
+     */
+    @GetMapping("selectLoginUsersBylid")
+    @ResponseBody
+    public R selectLoginUsersBylid(Loginusers entity) {
+        Loginusers loginusersBylid = loginusersService.selectLoginUsersBylid(entity);
+        return R.ok().data("loginusersBylid", loginusersBylid);
+    }
+
+    /**
+     * 修改登陆账户信息
+     *
+     * @param entity
+     * @return
+     */
+    @RequestMapping("updateLogin")
+    @ResponseBody
+    public R updateLogin(Loginusers entity) {
+        System.out.println(entity);
+        int i = loginusersService.updateLogin(entity);
+        System.out.println(i);
+        if (i > 0) {
+            return R.ok().message("修改成功");
+        }
+        return R.error().message("修改失败");
+    }
+
+
 }

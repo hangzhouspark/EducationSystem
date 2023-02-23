@@ -38,6 +38,14 @@ public interface LoginusersService {
     public int deleteLogin(Loginusers entity);
 
     /**
+     * 回显单个登录信息
+     *
+     * @param entity
+     * @return
+     */
+    public Loginusers selectLoginUsersBylid(Loginusers entity);
+
+    /**
      * 更新登录用户数据
      *
      * @param entity
