@@ -19,7 +19,7 @@ public class Student implements Serializable {
     
     private Integer ssex;
     
-    private Date sbirthday;
+    private String sbirthday;
     
     private String sclass;
 
