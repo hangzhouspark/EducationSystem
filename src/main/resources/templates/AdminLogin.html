@@ -17,7 +17,7 @@
          * @constructor
          */
         function BackLoginMain() {
-            Loginname();
+            // Loginname();
             SelectLoginMag();
         }
 
@@ -26,8 +26,17 @@
          * @constructor
          */
         function BackStudentMain() {
-            Loginname();
+            // Loginname();
             SelectStudentMag()
+        }
+
+        /**
+         * 操作成功跳转老师信息主页
+         * @constructor
+         */
+        function BackTeacherMain() {
+            // Loginname();
+            SelectTeacherMag()
         }
 
         /**
@@ -122,9 +131,45 @@
             })
         }
 
+        /**
+         * 查询老师信息
+         * @constructor
+         */
+        function SelectTeacherMag() {
+            $.ajax({
+                type: 'get',
+                url: './TeacherAllMag',
+                data: {},
+                dataType: 'json',
+                success: function (data) {
+                    $('.right').html("")
+                    var html = "<table cellpadding= '0' cellspacing= '0'  border=\"1\" align= 'center' id='tableAdmin'>";
+                    html += "<tr align='center'><td>序号</td><td>教师姓名</td><td>性别</td><td>教师生日</td><td>职务</td><td>操作</td></tr>"
+                    if (data.code == 20000) {
+                        $.each(data.data.teachersMag, function (i, comment) {
+                            html += "<tr align='center'><td>" + comment['tid'] + "</td><td>" + comment['tname'] + "</td>";
+                            if (comment['tsex'] == 0) {
+                                html += "<td>女</td>"
+                            } else if (comment['tsex'] == 1) {
+                                html += "<td>男</td>"
+                            } else {
+                                html += "<td>未知性别</td>"
+                            }
+                            html += "<td>" + comment['tbirthday'] + "</td><td>" + comment['tdepart'] + "</td>"
+                            html += "<td><a href='#' onclick='isDeleteTeacher(" + comment.tid + ")'><font color='red'>删除老师信息</font></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href='#' onclick='UpdataTeacher(" + comment.tid + ")'><font color='red'>修改老师信息</font></a></td>";
+                        })
+                        html += "</tr></table>";
+                    } else {
+                        alert(data.message);
+                    }
+                    $(".right").append(html);
+                }
+            })
+        }
+
 
         /**
-         * 跳转新增界面
+         * 跳转新增用户界面
          * @constructor
          */
         function InsertLoginMag() {
@@ -144,7 +189,50 @@
         }
 
         /**
-         * 新增登录信息
+         * 跳转新增学生界面
+         * @constructor
+         */
+        function InsertStudent() {
+            //清空right页面
+            $('.right').html("")
+            var html = "<div style='margin-top: 5px'><font style='font-size: 20px'>学生姓名:</font><input style='margin-left: 15px;' type=\"text\" name=\"sname\" id=\"sname\" onblur=\"checkInput('sname')\">"
+            html += "<span id=\"snameTitle\"></span><br/>"
+            html += "<font style='font-size: 20px'>学生生日:</font><input style='margin-left: 15px;' type=\"text\" name=\"sbirthday\" id=\"sbirthday\" onblur=\"checkInput('sbirthday')\">"
+            html += "<span id=\"sbirthdayTitle\"></span><br/>"
+            html += "<font style='font-size: 20px'>性别:</font><select id='testSelect' style='margin-left: 15px;'>\n" +
+                "      <option value=\"1\" selected>男</option>\n" +
+                "      <option value=\"0\" >女</option>\n" +
+                "  </select><br/>"
+            html += "<div style='margin-top: 5px'><font style='font-size: 20px'>学生所在班级:</font><input style='margin-left: 15px;' type=\"text\" name=\"sclass\" id=\"sclass\" onblur=\"checkInput('sclass')\">"
+            html += "<span id=\"sclassTitle\"></span><br/>"
+            html += "<button onclick=\"isInsertStudent()\" style='margin-top: 15px;text-align: center;margin-left: 124px'>添加学生信息</button></div>"
+            $(".right").append(html);
+        }
+
+        /**
+         * 跳转新增老师界面
+         * @constructor
+         */
+        function InsertTeacher() {
+            //清空right页面
+            $('.right').html("")
+            var html = "<div style='margin-top: 5px'><font style='font-size: 20px'>教师姓名:</font><input style='margin-left: 15px;' type=\"text\" name=\"tname\" id=\"tname\" onblur=\"checkInput('tname')\">"
+            html += "<span id=\"tnameTitle\"></span><br/>"
+            html += "<font style='font-size: 20px'>教师生日:</font><input style='margin-left: 15px;' type=\"text\" name=\"tbirthday\" id=\"tbirthday\" onblur=\"checkInput('tbirthday')\">"
+            html += "<span id=\"tbirthdayTitle\"></span><br/>"
+            html += "<font style='font-size: 20px'>性别:</font><select id='testSelect' style='margin-left: 15px;'>\n" +
+                "      <option value=\"1\" selected>男</option>\n" +
+                "      <option value=\"0\" >女</option>\n" +
+                "  </select><br/>"
+            html += "<div style='margin-top: 5px'><font style='font-size: 20px'>职务:</font><input style='margin-left: 15px;' type=\"text\" name=\"tdepart\" id=\"tdepart\" onblur=\"checkInput('tdepart')\">"
+            html += "<span id=\"tdepartTitle\"></span><br/>"
+            html += "<button onclick=\"isInsertTeacher()\" style='margin-top: 15px;text-align: center;margin-left: 124px'>添加老师信息</button></div>"
+            $(".right").append(html);
+        }
+
+
+        /**
+         * 新增登录用户信息
          */
         function isInsertLogin() {
             if (checkInput('lusername') && checkInput('lpassword')) {
@@ -165,6 +253,68 @@
                         } else {
                             alert("添加失败");
                             InsertLoginMag();
+                        }
+                    }
+
+
+                })
+            }
+        }
+
+        /**
+         * 新增学生信息
+         */
+        function isInsertStudent() {
+            if (checkInput('sname') && checkInput('sbirthday') && checkInput('sclass')) {
+                $.ajax({
+                    type: 'post',
+                    url: './insertStudent',
+                    timeout: 10000,
+                    data: {
+                        "sname": $("#sname").val().trim(),
+                        "sbirthday": $("#sbirthday").val().trim(),
+                        "sclass": $("#sclass").val().trim(),
+                        "ssex": $('#testSelect option:selected').val()
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.code == 20000) {
+                            alert("添加成功");
+                            BackStudentMain();
+                        } else {
+                            alert("添加失败");
+                            InsertStudent();
+                        }
+                    }
+
+
+                })
+            }
+        }
+
+        /**
+         * 新增老师信息
+         */
+        function isInsertTeacher() {
+            if (checkInput('tname') && checkInput('tbirthday') && checkInput('tdepart')) {
+                $.ajax({
+                    type: 'post',
+                    url: './insertTeacher',
+                    timeout: 10000,
+                    data: {
+                        "tname": $("#tname").val().trim(),
+                        "tbirthday": $("#tbirthday").val().trim(),
+                        "tdepart": $("#tdepart").val().trim(),
+                        "tsex": $('#testSelect option:selected').val()
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.code == 20000) {
+                            alert("添加成功");
+                            BackTeacherMain();
+                        } else {
+                            alert("添加失败");
+                            InsertTeacher();
                         }
                     }
 
@@ -199,6 +349,10 @@
             })
         }
 
+        /**
+         * 删除学生信息
+         * @param sid
+         */
         function isDeleteStudent(sid) {
             $.ajax({
                 type: 'post',
@@ -217,12 +371,39 @@
                         BackStudentMain();
                     }
                 }
-
-
             })
         }
 
+        /**
+         * 删除老师信息
+         * @param tid
+         */
+        function isDeleteTeacher(tid) {
+            $.ajax({
+                type: 'post',
+                url: './deleteTeacher',
+                timeout: 10000,
+                data: {
+                    "tid": tid
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.code == 20000) {
+                        alert("删除成功");
+                        BackTeacherMain()
+                    } else {
+                        alert("删除失败");
+                        BackTeacherMain()
+                    }
+                }
+            })
+        }
 
+        /**
+         * 跳转修改登录用户界面
+         * @param lid
+         * @constructor
+         */
         function UpdataLoginMag(lid) {
             $.ajax({
                 type: 'get',
@@ -250,7 +431,85 @@
                     // } else {
                     //     html += "<option>无账户信息</option>"
                     // }
-                    html += "<button onclick=\"isUpdateLogin()\" style='margin-top: 15px;text-align: center;margin-left: 124px'>修改信息</button></div>"
+                    html += "<button onclick=\"isUpdateLogin()\" style='margin-top: 15px;text-align: center;margin-left: 124px'>修改登录账号信息</button></div>"
+                    $(".right").append(html);
+                }
+
+
+            })
+        }
+
+        /**
+         * 跳转修改学生信息界面
+         * @constructor
+         */
+        function UpdataStudent(sid) {
+            $.ajax({
+                type: 'get',
+                url: './selectStudentBysid',
+                timeout: 10000,
+                data: {
+                    "sid": sid
+                },
+                dataType: 'json',
+                success: function (data) {
+                    //清空right页面
+                    $('.right').html("")
+                    var html = "<div style='margin-top: 5px'><font style='font-size: 20px'>学生姓名:</font><input style='margin-left: 15px;' type=\"text\" name=\"sname\" id=\"sname\" onblur=\"checkInput('sname')\" value='" + data.data.selectStudentBysid.sname + "'>"
+                    html += "<span id=\"snameTitle\"></span><br/>"
+                    html += "<font style='font-size: 20px'>学生生日:</font><input style='margin-left: 15px;' type=\"text\" name=\"sbirthday\" id=\"sbirthday\" onblur=\"checkInput('sbirthday')\" value='" + data.data.selectStudentBysid.sbirthday + "'>"
+                    html += "<span id=\"sbirthdayTitle\"></span><br/>"
+                    html += "<input id='sid' type='hidden' value='" + data.data.selectStudentBysid.sid + "'>"
+                    html += "<font style='font-size: 20px'>性别:</font><select id='testSelect' style='margin-left: 15px;'>"
+                    if (data.data.selectStudentBysid.ssex == 1) {
+                        html += "<option value='1' selected>男</option>" +
+                            "<option value='0' >女</option></select><br/>"
+                    } else if (data.data.selectStudentBysid.ssex == 0) {
+                        html += "<option value='1' >男</option>" +
+                            "<option value='0' selected>女</option></select><br/>"
+                    } else {
+                        html += "<option value='1' >未知性别</option></select><br/>"
+                    }
+                    html += "<div style='margin-top: 5px'><font style='font-size: 20px'>学生所在班级:</font><input style='margin-left: 15px;' type=\"text\" name=\"sclass\" id=\"sclass\" onblur=\"checkInput('sclass')\" value='" + data.data.selectStudentBysid.sclass + "'>"
+                    html += "<span id=\"sclassTitle\"></span><br/>"
+                    html += "<button onclick=\"isUpdateStudent()\" style='margin-top: 15px;text-align: center;margin-left: 124px'>修改学生信息</button></div>"
+                    $(".right").append(html);
+                }
+
+
+            })
+        }
+
+        function UpdataTeacher(tid) {
+            $.ajax({
+                type: 'get',
+                url: './selectTeacherBytid',
+                timeout: 10000,
+                data: {
+                    "tid": tid
+                },
+                dataType: 'json',
+                success: function (data) {
+                    //清空right页面
+                    $('.right').html("")
+                    var html = "<div style='margin-top: 5px'><font style='font-size: 20px'>教师姓名:</font><input style='margin-left: 15px;' type=\"text\" name=\"tname\" id=\"tname\" onblur=\"checkInput('tname')\" value='" + data.data.selectTeacherBytid.tname + "'>"
+                    html += "<span id=\"tnameTitle\"></span><br/>"
+                    html += "<font style='font-size: 20px'>学生生日:</font><input style='margin-left: 15px;' type=\"text\" name=\"tbirthday\" id=\"tbirthday\" onblur=\"checkInput('tbirthday')\" value='" + data.data.selectTeacherBytid.tbirthday + "'>"
+                    html += "<span id=\"tbirthdayTitle\"></span><br/>"
+                    html += "<input id='tid' type='hidden' value='" + data.data.selectTeacherBytid.tid + "'>"
+                    html += "<font style='font-size: 20px'>性别:</font><select id='testSelect' style='margin-left: 15px;'>"
+                    if (data.data.selectTeacherBytid.tsex == 1) {
+                        html += "<option value='1' selected>男</option>" +
+                            "<option value='0' >女</option></select><br/>"
+                    } else if (data.data.selectTeacherBytid.tsex == 0) {
+                        html += "<option value='1' >男</option>" +
+                            "<option value='0' selected>女</option></select><br/>"
+                    } else {
+                        html += "<option value='1' >未知性别</option></select><br/>"
+                    }
+                    html += "<div style='margin-top: 5px'><font style='font-size: 20px'>职务:</font><input style='margin-left: 15px;' type=\"text\" name=\"tdepart\" id=\"tdepart\" onblur=\"checkInput('tdepart')\" value='" + data.data.selectTeacherBytid.tdepart + "'>"
+                    html += "<span id=\"tdepartTitle\"></span><br/>"
+                    html += "<button onclick=\"isUpdateTeacher()\" style='margin-top: 15px;text-align: center;margin-left: 124px'>修改老师信息</button></div>"
                     $(".right").append(html);
                 }
 
@@ -289,6 +548,66 @@
             }
         }
 
+        /**
+         * 修改学生账号信息
+         */
+        function isUpdateStudent() {
+            if (checkInput('sname') && checkInput('sbirthday') && checkInput('sclass')) {
+                $.ajax({
+                    type: 'post',
+                    url: './updateStudent',
+                    timeout: 10000,
+                    data: {
+                        "sid": $("#sid").val().trim(),
+                        "sname": $("#sname").val().trim(),
+                        "sbirthday": $("#sbirthday").val().trim(),
+                        "sclass": $("#sclass").val().trim(),
+                        "ssex": $('#testSelect option:selected').val()
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.code == 20000) {
+                            alert("修改成功");
+                            BackStudentMain();
+                        } else {
+                            alert("修改失败");
+                            BackStudentMain();
+                        }
+                    }
+                })
+            }
+        }
+
+        /**
+         * 修改老师信息
+         */
+        function isUpdateTeacher() {
+            if (checkInput('tname') && checkInput('tbirthday') && checkInput('tdepart')) {
+                $.ajax({
+                    type: 'post',
+                    url: './updateTeacher',
+                    timeout: 10000,
+                    data: {
+                        "tid": $("#tid").val().trim(),
+                        "tname": $("#tname").val().trim(),
+                        "tbirthday": $("#tbirthday").val().trim(),
+                        "tdepart": $("#tdepart").val().trim(),
+                        "tsex": $('#testSelect option:selected').val()
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.code == 20000) {
+                            alert("修改成功");
+                            BackTeacherMain();
+                        } else {
+                            alert("修改失败");
+                            BackTeacherMain();
+                        }
+                    }
+                })
+            }
+        }
+
 
     </script>
 </head>
@@ -309,12 +628,12 @@
                 <h3>学生信息管理</h3>
                 <div class="m" style="display:block;">
                     <div onclick="SelectStudentMag()">查看学生信息</div>
-                    <div>新增学生信息</div>
+                    <div onclick="InsertStudent()">新增学生信息</div>
                 </div>
                 <h3>老师信息管理</h3>
                 <div class="m" style="display:block;">
-                    <div>查看老师信息</div>
-                    <div>新增老师信息</div>
+                    <div onclick="SelectTeacherMag()">查看老师信息</div>
+                    <div onclick="InsertTeacher()">新增老师信息</div>
                 </div>
             </div>
         </div>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kdgx.mapper.TeacherMapper">
+    <select id="selectTeacher" resultType="com.kdgx.entity.Teacher">
+        select *
+        from teacher
+    </select>
+
+    <insert id="insertTeacher" parameterType="com.kdgx.entity.Teacher">
+        insert into Teacher(tname, tsex, tbirthday, tdepart)
+        values (#{tname}, #{tsex}, #{tbirthday}, #{tdepart})
+    </insert>
+
+    <delete id="deleteTeacher" parameterType="com.kdgx.entity.Teacher">
+        delete
+        from teacher
+        where tid = #{tid}
+    </delete>
+
+    <select id="selectTeacherByTid" resultType="com.kdgx.entity.Teacher">
+        select *
+        from teacher
+        where tid = #{tid}
+    </select>
+
+    <update id="updateTeacher" parameterType="com.kdgx.entity.Teacher">
+        update teacher
+        set tname     = #{tname},
+            tsex      = #{tsex},
+            tbirthday = #{tbirthday},
+            tdepart    = #{tdepart}
+        where tid = #{tid}
+    </update>
+
+</mapper>

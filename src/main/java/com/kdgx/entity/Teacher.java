@@ -19,7 +19,7 @@ public class Teacher implements Serializable {
 
     private Integer tsex;
 
-    private Date tbirthday;
+    private String tbirthday;
 
     private String tdepart;
 

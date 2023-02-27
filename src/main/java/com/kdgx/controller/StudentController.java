@@ -22,7 +22,7 @@ public class StudentController {
 
 
     /**
-     * 获取登录的信息
+     * 获取学生的信息
      *
      * @param request
      * @return
@@ -34,6 +34,24 @@ public class StudentController {
 //        SimpleDateFormat date_format1 = new SimpleDateFormat("MM/dd/yyyy");
 //            String format = date_format1.format(entity.getSbirthday());
         return R.ok().data("studentsMag", studentsMag);
+    }
+
+
+    /**
+     * 添加学生信息
+     *
+     * @param entity
+     * @param
+     * @return
+     */
+    @RequestMapping("insertStudent")
+    @ResponseBody
+    public R insertStudent(Student entity) {
+        int i = studentService.insertStudent(entity);
+        if (i > 0) {
+            return R.ok().message("添加成功");
+        }
+        return R.error().message("添加失败");
     }
 
     /**
@@ -50,5 +68,36 @@ public class StudentController {
             return R.ok().message("删除成功");
         }
         return R.error().message("删除失败");
+    }
+
+
+    /**
+     * 回显单个学生信息
+     *
+     * @param entity
+     * @return
+     */
+    @GetMapping("selectStudentBysid")
+    @ResponseBody
+    public R selectStudentBysid(Student entity) {
+        Student selectStudentBysid = studentService.selectStudentBySid(entity);
+        return R.ok().data("selectStudentBysid", selectStudentBysid);
+    }
+
+    /**
+     * 修改学生账户信息
+     *
+     * @param entity
+     * @return
+     */
+    @RequestMapping("updateStudent")
+    @ResponseBody
+    public R updateStudent(Student entity) {
+        int i = studentService.updateStudent(entity);
+        if (i > 0) {
+            return R.ok().message("修改成功");
+        } else {
+            return R.error().message("修改失败");
+        }
     }
 }
