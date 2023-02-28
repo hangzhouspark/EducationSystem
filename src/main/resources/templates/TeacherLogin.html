@@ -1,10 +1,120 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-cn">
 <head>
-    <meta charset="UTF-8">
-    <title>老师登录</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>老师后台管理</title>
+    <link rel="stylesheet" type="text/css" href="/css/Main.css"/>
+    <script src="/js/jquery-3.4.1.js" charset="utf-8"></script>
+    <script src="/js/checking.js" charset="utf-8"></script>
+    <script>
+
+        $(function () {
+            Loginname();
+        })
+
+        /**
+         * 显示欢迎登录名
+         * @constructor
+         */
+        function Loginname() {
+            $.ajax({
+                type: 'get',
+                url: './LoginMag',
+                data: {},
+                dataType: 'json',
+                success: function (data) {
+                    var mag = data.data.LoginMag.lusername;
+                    var html = mag;
+                    $("#strong1").append(html);
+                }
+
+            })
+        }
+
+        /**
+         * 修改登录老师密码
+         */
+        function updateTeacherMySelf() {
+            $.ajax({
+                type: 'get',
+                url: './LoginMag',
+                data: {},
+                dataType: 'json',
+                success: function (data) {
+                    //清空right页面
+                    $('.right').html("")
+                    var html = "<div style='margin-top: 5px'><font style='font-size: 20px'>新密码:</font><input style='margin-left: 15px;' type=\"text\" name=\"lpassword\" id=\"lpassword\" onblur=\"checkInput('lpassword')\">"
+                    html += "<span id=\"lpasswordTitle\"></span><br/>"
+                    html+="<input id='lid' value='" + data.data.LoginMag.lid + "' type='hidden'></input>"
+                    html += "<button onclick=\"isupdateTeacherMySelf()\" style='margin-top: 15px;text-align: center;margin-left: 124px'>修改密码</button></div>"
+                    $(".right").append(html);
+                }
+
+            })
+
+        }
+
+        function isupdateTeacherMySelf(){
+            if (checkInput('lpassword')) {
+                $.ajax({
+                    type: 'post',
+                    url: './updateLoginByPassword',
+                    timeout: 10000,
+                    data: {
+                        "lid": $("#lid").val().trim(),
+                        "lpassword": $("#lpassword").val().trim()
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.code == 20000) {
+                            alert("修改密码成功");
+                            window.location.href="http://localhost:8001"
+                        } else {
+                            alert("修改密码失败");
+                            window.location.href="http://localhost:8001"
+                        }
+                    }
+
+
+                })
+            }
+        }
+
+
+    </script>
 </head>
 <body>
+<div id="top">
+    <div class="l">老师后台管理</div>
+    <div class="r"><strong id="strong1"></strong>，欢迎您！ | <a href="#" onclick="updateTeacherMySelf()">修改密码</a>
+        | <a href="http://localhost:8001">退出</a></div>
+</div>
+<div id="center">
+    <div id="all">
+        <div class="left">
+            <div id="menus">
+                <h3>教学课件管理</h3>
+                <div class="m" style="display:block;">
+                    <div onclick="SelectLoginMag()">查看教学课件信息</div>
+                    <div onclick="InsertLoginMag()">新增教学课件信息</div>
+                </div>
+                <h3>教学视频管理</h3>
+                <div class="m" style="display:block;">
+                    <div onclick="SelectStudentMag()">查看教学视频信息</div>
+                    <div onclick="InsertStudent()">新增教学视频信息</div>
+                </div>
+                <h3>师生交流管理</h3>
+                <div class="m" style="display:block;">
+                    <div onclick="SelectTeacherMag()">查看留言信息</div>
+                    <div onclick="InsertTeacher()">新增留言信息</div>
+                </div>
+            </div>
+        </div>
+        <div class="right" style="width:90%;height:100%;">
 
+        </div>
+    </div>
+</div>
+<div id="foot">管理员</div>
 </body>
 </html>

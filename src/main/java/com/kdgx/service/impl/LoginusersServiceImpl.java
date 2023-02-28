@@ -43,4 +43,9 @@ public class LoginusersServiceImpl implements LoginusersService {
     public int updateLogin(Loginusers entity) {
         return loginusersMapper.updateLogin(entity);
     }
+
+    @Override
+    public int updateLoginByPassword(Loginusers entity) {
+        return loginusersMapper.updateLoginByPassword(entity);
+    }
 }

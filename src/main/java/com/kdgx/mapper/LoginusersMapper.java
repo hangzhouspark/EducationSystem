@@ -54,5 +54,12 @@ public interface LoginusersMapper {
      */
     public int updateLogin(Loginusers entity);
 
+    /**
+     * 修改登录密码
+     * @param entity
+     * @return
+     */
+    public int updateLoginByPassword(Loginusers entity);
+
 
 }

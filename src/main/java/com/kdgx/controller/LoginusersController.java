@@ -139,6 +139,7 @@ public class LoginusersController {
 
     /**
      * 回显单个登录信息
+     *
      * @param entity
      * @return
      */
@@ -163,6 +164,22 @@ public class LoginusersController {
             return R.ok().message("修改成功");
         }
         return R.error().message("修改失败");
+    }
+
+    /**
+     * 修改登陆账户信息
+     *
+     * @param entity
+     * @return
+     */
+    @RequestMapping("updateLoginByPassword")
+    @ResponseBody
+    public R updateLoginByPassword(Loginusers entity) {
+        int i = loginusersService.updateLoginByPassword(entity);
+        if (i > 0) {
+            return R.ok().message("修改密码成功");
+        }
+        return R.error().message("修改密码失败");
     }
 
 

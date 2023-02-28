@@ -35,6 +35,10 @@
         update loginusers set lusername = #{lusername},lpassword = #{lpassword} where lid = #{lid}
     </update>
 
+    <update id="updateLoginByPassword" parameterType="com.kdgx.entity.Loginusers">
+        update loginusers set lpassword = #{lpassword} where lid = #{lid}
+    </update>
+
 
 </mapper>
 

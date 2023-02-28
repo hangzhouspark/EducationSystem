@@ -9,7 +9,6 @@
     <script>
         $(function () {
             Loginname();
-            //  SelectLoginMag()
         })
 
         /**
@@ -17,7 +16,6 @@
          * @constructor
          */
         function BackLoginMain() {
-            // Loginname();
             SelectLoginMag();
         }
 
@@ -26,7 +24,6 @@
          * @constructor
          */
         function BackStudentMain() {
-            // Loginname();
             SelectStudentMag()
         }
 
@@ -35,7 +32,6 @@
          * @constructor
          */
         function BackTeacherMain() {
-            // Loginname();
             SelectTeacherMag()
         }
 
@@ -172,7 +168,7 @@
          * 跳转新增用户界面
          * @constructor
          */
-        function InsertLoginMag() {
+        function InsertLogin() {
             //清空right页面
             $('.right').html("")
             var html = "<div style='margin-top: 5px'><font style='font-size: 20px'>登录账号:</font><input style='margin-left: 15px;' type=\"text\" name=\"lusername\" id=\"lusername\" onblur=\"checkInput('lusername')\">"
@@ -623,7 +619,7 @@
                 <h3>登录信息管理</h3>
                 <div class="m" style="display:block;">
                     <div onclick="SelectLoginMag()">查看登录账号信息</div>
-                    <div onclick="InsertLoginMag()">新增登录账号信息</div>
+                    <div onclick="InsertLogin()">新增登录账号信息</div>
                 </div>
                 <h3>学生信息管理</h3>
                 <div class="m" style="display:block;">
