@@ -2,7 +2,42 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kdgx.mapper.CoursewareMapper">
 
+    <select id="selectCourseware" resultType="com.kdgx.entity.Courseware">
+        select *
+        from courseware
+    </select>
 
+    <select id="selectCoursewareByCid" resultType="com.kdgx.entity.Courseware">
+        select *
+        from courseware
+        where cid = #{cid}
+    </select>
+
+    <insert id="insertCourseware" parameterType="com.kdgx.entity.Courseware">
+        insert into courseware(cname, cauthor, cware)
+        values (#{cname}, #{cauthor}, #{cware})
+    </insert>
+
+
+    <delete id="deleteCourseware" parameterType="com.kdgx.entity.Courseware">
+        delete
+        from courseware
+        where cid = #{cid}
+    </delete>
+
+
+    <update id="updateCourseware" parameterType="com.kdgx.entity.Courseware">
+        update courseware
+        set cname   = #{cname},
+            cauthor = #{cauthor}
+        where cid = #{cid}
+    </update>
+
+    <update id="updateCoursewareByCware" parameterType="com.kdgx.entity.Courseware">
+        update courseware
+        set cware = #{cware}
+        where cid = #{cid}
+    </update>
 
 
 </mapper>

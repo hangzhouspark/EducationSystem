@@ -12,5 +12,9 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   mvc:
     static-path-pattern: /**
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 10000MB
 mybatis:
   mapper-locations: classpath:mapper/*.xml
