@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kdgx.mapper.MessageMapper">
+
+    <resultMap autoMapping="true" type="com.kdgx.entity.Message" id="messageTid">
+        <id column="mid" property="mid"/>
+        <collection autoMapping="true" property="teacher" ofType="com.kdgx.entity.Teacher">
+            <id column="tid" property="tid"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectMessage" resultMap="messageTid">
+        select message.mid, message.mquestion, message.manswers, teacher.tname
+        from message,
+             teacher
+        where message.tid = teacher.tid;
+    </select>
+
+    <delete id="deleteMessage" parameterType="com.kdgx.entity.Message">
+        delete
+        from message
+        where mid = #{mid}
+    </delete>
+
+</mapper>

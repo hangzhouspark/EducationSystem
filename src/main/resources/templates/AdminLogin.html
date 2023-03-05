@@ -12,30 +12,6 @@
         })
 
         /**
-         * 操作成功跳转登录信息主页
-         * @constructor
-         */
-        function BackLoginMain() {
-            SelectLoginMag();
-        }
-
-        /**
-         * 操作成功跳转学生信息主页
-         * @constructor
-         */
-        function BackStudentMain() {
-            SelectStudentMag()
-        }
-
-        /**
-         * 操作成功跳转老师信息主页
-         * @constructor
-         */
-        function BackTeacherMain() {
-            SelectTeacherMag()
-        }
-
-        /**
          * 显示欢迎登录名
          * @constructor
          */
@@ -245,7 +221,7 @@
                     success: function (data) {
                         if (data.code == 20000) {
                             alert("添加成功");
-                            BackLoginMain();
+                            SelectLoginMag();
                         } else {
                             alert("添加失败");
                             InsertLoginMag();
@@ -276,7 +252,7 @@
                     success: function (data) {
                         if (data.code == 20000) {
                             alert("添加成功");
-                            BackStudentMain();
+                            SelectStudentMag();
                         } else {
                             alert("添加失败");
                             InsertStudent();
@@ -307,7 +283,7 @@
                     success: function (data) {
                         if (data.code == 20000) {
                             alert("添加成功");
-                            BackTeacherMain();
+                            SSelectTeacherMag();
                         } else {
                             alert("添加失败");
                             InsertTeacher();
@@ -334,10 +310,10 @@
                 success: function (data) {
                     if (data.code == 20000) {
                         alert("删除成功");
-                        BackLoginMain();
+                        SelectLoginMag();
                     } else {
                         alert("删除失败");
-                        BackLoginMain();
+                        SelectLoginMag();
                     }
                 }
 
@@ -361,10 +337,10 @@
                 success: function (data) {
                     if (data.code == 20000) {
                         alert("删除成功");
-                        BackStudentMain();
+                        SelectStudentMag();
                     } else {
                         alert("删除失败");
-                        BackStudentMain();
+                        SelectStudentMag();
                     }
                 }
             })
@@ -386,10 +362,10 @@
                 success: function (data) {
                     if (data.code == 20000) {
                         alert("删除成功");
-                        BackTeacherMain()
+                        SSelectTeacherMag()
                     } else {
                         alert("删除失败");
-                        BackTeacherMain()
+                        SSelectTeacherMag()
                     }
                 }
             })
@@ -532,10 +508,10 @@
                     success: function (data) {
                         if (data.code == 20000) {
                             alert("修改成功");
-                            BackLoginMain();
+                            SelectLoginMag();
                         } else {
                             alert("修改失败");
-                            BackLoginMain();
+                            SelectLoginMag();
                         }
                     }
 
@@ -564,10 +540,10 @@
                     success: function (data) {
                         if (data.code == 20000) {
                             alert("修改成功");
-                            BackStudentMain();
+                            SelectStudentMag();
                         } else {
                             alert("修改失败");
-                            BackStudentMain();
+                            SelectStudentMag();
                         }
                     }
                 })
@@ -594,10 +570,10 @@
                     success: function (data) {
                         if (data.code == 20000) {
                             alert("修改成功");
-                            BackTeacherMain();
+                            SSelectTeacherMag();
                         } else {
                             alert("修改失败");
-                            BackTeacherMain();
+                            SSelectTeacherMag();
                         }
                     }
                 })

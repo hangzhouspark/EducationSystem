@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kdgx.mapper.VideoMapper">
+    <select id="selectVideo" resultType="com.kdgx.entity.Video">
+        select *
+        from video
+    </select>
+
+    <select id="selectVideoByvid" resultType="com.kdgx.entity.Video">
+        select *
+        from video
+        where vid = #{vid}
+    </select>
+
+    <insert id="insertVideo" parameterType="com.kdgx.entity.Video">
+        insert into video(vname, vauthor, vware)
+        values (#{vname}, #{vauthor}, #{vware})
+    </insert>
+
+
+    <delete id="deleteVideo" parameterType="com.kdgx.entity.Video">
+        delete
+        from video
+        where vid = #{vid}
+    </delete>
+
+
+    <update id="updateVideo" parameterType="com.kdgx.entity.Video">
+        update video
+        set vname   = #{vname},
+            vauthor = #{vauthor}
+        where vid = #{vid}
+    </update>
+
+    <update id="updateVideoByvware" parameterType="com.kdgx.entity.Video">
+        update video
+        set vware = #{vware}
+        where vid = #{vid}
+    </update>
+
+
+</mapper>

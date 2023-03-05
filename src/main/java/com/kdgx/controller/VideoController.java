@@ -1,7 +1,7 @@
 package com.kdgx.controller;
 
-import com.kdgx.entity.Courseware;
-import com.kdgx.service.CoursewareService;
+import com.kdgx.entity.Video;
+import com.kdgx.service.VideoService;
 import com.kdgx.util.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,12 +19,10 @@ import java.util.UUID;
 
 @Controller
 @SuppressWarnings("all")
-public class CoursewareController {
+public class VideoController {
 
     @Autowired
-    private CoursewareService coursewareService;
-
-//    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/");
+    private VideoService videoService;
 
     /**
      * 获取课件的信息数据
@@ -32,11 +30,11 @@ public class CoursewareController {
      * @param request
      * @return
      */
-    @GetMapping("selectCourseware")
+    @GetMapping("selectVideo")
     @ResponseBody
-    public R selectCourseware() {
-        List<Courseware> coursewares = coursewareService.selectCourseware();
-        return R.ok().data("coursewares", coursewares);
+    public R selectVideo() {
+        List<Video> Videos = videoService.selectVideo();
+        return R.ok().data("Videos", Videos);
     }
 
     private String fileSavePath;
@@ -50,19 +48,19 @@ public class CoursewareController {
      * @return
      * @throws IOException
      */
-    @PostMapping("/upload")
-    public String upload(int cid, MultipartFile uploadFile, HttpServletRequest req) throws IOException {
+    @PostMapping("/uploadV")
+    public String uploadV(int vid, MultipartFile uploadFile, HttpServletRequest req) throws IOException {
         System.out.println("uploadFile" + uploadFile);
-        String realPath = "E:/ideaproject/EducationSystem/src/main/resources/static/file";
+        String realPath = "E:/ideaproject/EducationSystem/src/main/resources/static/video";
         String filePath = "";
         String oldName = uploadFile.getOriginalFilename();
         String newName = UUID.randomUUID().toString() + oldName.substring(oldName.lastIndexOf("."), oldName.length());
         uploadFile.transferTo(new File(realPath + "/" + newName));
-        filePath = "http://localhost:8001/file/" + newName;
-        Courseware entity = new Courseware();
-        entity.setCid(cid);
-        entity.setCware(newName);
-        int i = coursewareService.updateCoursewareByCware(entity);
+        filePath = "http://localhost:8001/video/" + newName;
+        Video entity = new Video();
+        entity.setVid(vid);
+        entity.setVware(newName);
+        int i = videoService.updateVideoByvware(entity);
         if (i > 0) {
             return "TeacherLogin";
         } else {
@@ -76,10 +74,10 @@ public class CoursewareController {
      * @param entity
      * @return
      */
-    @RequestMapping("deleteCourseware")
+    @RequestMapping("deleteVideo")
     @ResponseBody
-    public R deleteCourseware(Courseware entity) {
-        int i = coursewareService.deleteCourseware(entity);
+    public R deleteVideo(Video entity) {
+        int i = videoService.deleteVideo(entity);
         if (i > 0) {
             return R.ok().message("删除成功");
         }
@@ -93,10 +91,10 @@ public class CoursewareController {
      * @param
      * @return
      */
-    @RequestMapping("insertCourseware")
+    @RequestMapping("insertVideo")
     @ResponseBody
-    public R insertCourseware(Courseware entity) {
-        int i = coursewareService.insertCourseware(entity);
+    public R insertVideo(Video entity) {
+        int i = videoService.insertVideo(entity);
         if (i > 0) {
             return R.ok().message("添加成功");
         }
@@ -110,11 +108,11 @@ public class CoursewareController {
      * @param request
      * @return
      */
-    @GetMapping("selectCoursewareBycid")
+    @GetMapping("selectVideoByvid")
     @ResponseBody
-    public R selectCoursewareBycid(Courseware entity) {
-        Courseware selectCoursewareBycid = coursewareService.selectCoursewareByCid(entity);
-        return R.ok().data("selectCoursewareBycid", selectCoursewareBycid);
+    public R selectVideoByvid(Video entity) {
+        Video selectVideoByvid = videoService.selectVideoByvid(entity);
+        return R.ok().data("selectVideoByvid", selectVideoByvid);
     }
 
     /**
@@ -123,16 +121,15 @@ public class CoursewareController {
      * @param entity
      * @return
      */
-    @RequestMapping("updateCourseware")
+    @RequestMapping("updateVideo")
     @ResponseBody
-    public R updateCourseware(Courseware entity) {
-        int i = coursewareService.updateCourseware(entity);
+    public R updateVideo(Video entity) {
+        int i = videoService.updateVideo(entity);
         if (i > 0) {
             return R.ok().message("修改成功");
         } else {
             return R.error().message("修改失败");
         }
     }
-
 
 }

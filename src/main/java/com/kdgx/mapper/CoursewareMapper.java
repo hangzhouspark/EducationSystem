@@ -13,7 +13,7 @@ public interface CoursewareMapper {
     public List<Courseware> selectCourseware();
 
     /**
-     * 查询ID查询课件信息
+     * 根据ID查询课件信息
      *
      * @return
      */
@@ -34,7 +34,7 @@ public interface CoursewareMapper {
     public int deleteCourseware(Courseware entity);
 
     /**
-     * 修改出课件外的课件信息
+     * 修改除课件外的课件信息
      *
      * @return
      */

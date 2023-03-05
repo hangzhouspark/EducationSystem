@@ -21,5 +21,8 @@ public class Message implements Serializable {
     
     private Integer tid;
 
+    private Teacher teacher;
+
+
 }
 

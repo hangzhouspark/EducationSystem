@@ -33,7 +33,7 @@
         }
 
         /**
-         * 修改登录老师密码
+         * 跳转修改登录老师密码页面
          */
         function updateTeacherMySelf() {
             $.ajax({
@@ -55,6 +55,9 @@
 
         }
 
+        /**
+         * 修改自己账户密码
+         */
         function isupdateTeacherMySelf() {
             if (checkInput('lpassword')) {
                 $.ajax({
@@ -81,7 +84,13 @@
             }
         }
 
-        function SelectLoginMag() {
+        // -------------------------------------------------------------------------------------------------------
+
+        /**
+         * 查询课件信息
+         * @constructor
+         */
+        function SelectCoursewareMag() {
             $.ajax({
                 type: 'get',
                 url: './selectCourseware',
@@ -108,6 +117,330 @@
             })
         }
 
+        /**
+         * 删除课件信息
+         * @param cid
+         */
+        function isDeleteCourseware(cid) {
+            $.ajax({
+                type: 'post',
+                url: './deleteCourseware',
+                timeout: 10000,
+                data: {
+                    "cid": cid
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.code == 20000) {
+                        alert("删除成功");
+                        SelectCoursewareMag();
+                    } else {
+                        alert("删除失败");
+                        SelectCoursewareMag();
+                    }
+                }
+            })
+        }
+
+        /**
+         * 跳转新增课件页面
+         * @constructor
+         */
+        function InsertCourseware() {
+            //清空right页面
+            $('.right').html("")
+            var html = "<div style='margin-top: 5px'><font style='font-size: 20px'>课件名:</font><input style='margin-left: 15px;' type=\"text\" name=\"cname\" id=\"cname\" onblur=\"checkInput('cname')\">"
+            html += "<span id=\"cnameTitle\"></span><br/>"
+            html += "<font style='font-size: 20px'>课件作者:</font><input style='margin-left: 15px;' type=\"text\" name=\"cauthor\" id=\"cauthor\" onblur=\"checkInput('cauthor')\">"
+            html += "<span id=\"cauthorTitle\"></span><br/>"
+            html += "<button onclick=\"isInsertCourseware()\" style='margin-top: 15px;text-align: center;margin-left: 124px'>添加课件信息</button></div>"
+            $(".right").append(html);
+        }
+
+        /**
+         * 新增课件信息
+         */
+        function isInsertCourseware() {
+            if (checkInput('cname') && checkInput('cauthor')) {
+                $.ajax({
+                    type: 'post',
+                    url: './insertCourseware',
+                    timeout: 10000,
+                    data: {
+                        "cname": $("#cname").val().trim(),
+                        "cauthor": $("#cauthor").val().trim()
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.code == 20000) {
+                            alert("添加成功");
+                            SelectCoursewareMag();
+                        } else {
+                            alert("添加失败");
+                            InsertCourseware();
+                        }
+                    }
+                })
+            }
+        }
+
+        /**
+         * 跳转修改课件信息界面
+         * @constructor
+         */
+        function UpdataCoursewareMag(cid) {
+            $.ajax({
+                type: 'get',
+                url: './selectCoursewareBycid',
+                timeout: 10000,
+                data: {
+                    "cid": cid
+                },
+                dataType: 'json',
+                success: function (data) {
+                    //清空right页面
+                    $('.right').html("")
+                    var html = "<div style='margin-top: 5px'><font style='font-size: 20px'>学生姓名:</font><input style='margin-left: 15px;' type=\"text\" name=\"cname\" id=\"cname\" onblur=\"checkInput('cname')\" value='" + data.data.selectCoursewareBycid.cname + "'>"
+                    html += "<span id=\"cnameTitle\"></span><br/>"
+                    html += "<font style='font-size: 20px'>学生生日:</font><input style='margin-left: 15px;' type=\"text\" name=\"cauthor\" id=\"cauthor\" onblur=\"checkInput('cauthor')\" value='" + data.data.selectCoursewareBycid.cauthor + "'>"
+                    html += "<span id=\"cauthorTitle\"></span><br/>"
+                    html += "<input id='cid' type='hidden' value='" + data.data.selectCoursewareBycid.cid + "'>"
+                    html += "<button onclick=\"isUpdateCourseware()\" style='margin-top: 15px;text-align: center;margin-left: 124px'>修改课件信息</button></div>"
+                    $(".right").append(html);
+                }
+            })
+        }
+
+        function isUpdateCourseware() {
+            if (checkInput('cname') && checkInput('cauthor')) {
+                $.ajax({
+                    type: 'post',
+                    url: './updateCourseware',
+                    timeout: 10000,
+                    data: {
+                        "cname": $("#cname").val().trim(),
+                        "cauthor": $("#cauthor").val().trim(),
+                        "cid": $("#cid").val().trim()
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.code == 20000) {
+                            alert("修改成功");
+                            SelectCoursewareMag();
+                        } else {
+                            alert("修改失败");
+                            SelectCoursewareMag();
+                        }
+                    }
+                })
+            }
+        }
+
+        // ---------------------------------------------------------------------------------------------------------------
+        /**
+         * 查询视频信息
+         * @constructor
+         */
+        function SelectVideoMag() {
+            $.ajax({
+                type: 'get',
+                url: './selectVideo',
+                timeout: 10000,
+                data: {},
+                dataType: 'json',
+                success: function (data) {
+                    $('.right').html("")
+                    var html = "<table cellpadding= '0' cellspacing= '0'  border=\"1\" align= 'center' id='tableAdmin'>";
+                    html += "<tr align='center'><td>序号</td><td>视频名</td><td>视频作者</td><td>视频</td><td>操作</td></tr>"
+                    if (data.code == 20000) {
+                        $.each(data.data.Videos, function (i, comment) {
+                            html += "<tr align='center'><td>" + comment['vid'] + "</td><td>" + comment['vname'] + "</td><td>" + comment['vauthor'] + "</td><td>" + comment['vware'] + "&nbsp;&nbsp; <form action=\"/uploadV\" method=\"post\" enctype=\"multipart/form-data\"></input><input type=\"file\" name=\"uploadFile\" value=\"请选择文件\"><input type=\"hidden\" id='vid' class='vid' name='vid' value=\"" + comment['vid'] + "\"><input type=\"submit\" value=\"上传\"></form></td>";
+                            html += "<td ><a href='#' onclick='isDeleteVideo(" + comment.vid + ")'><font color='red'>删除视频信息</font></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href='#' onclick='UpdataVideoMag(" + comment.vid + ")'><font color='red'>修改视频信息</font></a></td>";
+                        })
+                        html += "</tr></table>";
+                    } else {
+                        alert(data.message);
+                    }
+                    $(".right").append(html);
+                }
+
+
+            })
+        }
+
+        /**
+         * 删除视频信息
+         * @param cid
+         */
+        function isDeleteVideo(vid) {
+            $.ajax({
+                type: 'post',
+                url: './deleteVideo',
+                timeout: 10000,
+                data: {
+                    "vid": vid
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.code == 20000) {
+                        alert("删除成功");
+                        SelectVideoMag();
+                    } else {
+                        alert("删除失败");
+                        SelectVideoMag();
+                    }
+                }
+            })
+        }
+
+        /**
+         * 跳转新增视频信息页面
+         * @constructor
+         */
+        function InsertVideo() {
+            //清空right页面
+            $('.right').html("")
+            var html = "<div style='margin-top: 5px'><font style='font-size: 20px'>视频名:</font><input style='margin-left: 15px;' type=\"text\" name=\"vname\" id=\"vname\" onblur=\"checkInput('vname')\">"
+            html += "<span id=\"vnameTitle\"></span><br/>"
+            html += "<font style='font-size: 20px'>视频作者:</font><input style='margin-left: 15px;' type=\"text\" name=\"vauthor\" id=\"vauthor\" onblur=\"checkInput('vauthor')\">"
+            html += "<span id=\"vauthorTitle\"></span><br/>"
+            html += "<button onclick=\"isInsertVideo()\" style='margin-top: 15px;text-align: center;margin-left: 124px'>添加视频信息</button></div>"
+            $(".right").append(html);
+        }
+
+        /**
+         * 新增课件信息
+         */
+        function isInsertVideo() {
+            if (checkInput('vname') && checkInput('vauthor')) {
+                $.ajax({
+                    type: 'post',
+                    url: './insertVideo',
+                    timeout: 10000,
+                    data: {
+                        "vname": $("#vname").val().trim(),
+                        "vauthor": $("#vauthor").val().trim()
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.code == 20000) {
+                            alert("添加成功");
+                            SelectVideoMag();
+                        } else {
+                            alert("添加失败");
+                            SelectVideoMag();
+                        }
+                    }
+                })
+            }
+        }
+
+        /**
+         * 跳转修改课件信息界面
+         * @constructor
+         */
+        function UpdataVideoMag(vid) {
+            $.ajax({
+                type: 'get',
+                url: './selectVideoByvid',
+                timeout: 10000,
+                data: {
+                    "vid": vid
+                },
+                dataType: 'json',
+                success: function (data) {
+                    //清空right页面
+                    $('.right').html("")
+                    var html = "<div style='margin-top: 5px'><font style='font-size: 20px'>学生姓名:</font><input style='margin-left: 15px;' type=\"text\" name=\"vname\" id=\"vname\" onblur=\"checkInput('vname')\" value='" + data.data.selectVideoByvid.vname + "'>"
+                    html += "<span id=\"vnameTitle\"></span><br/>"
+                    html += "<font style='font-size: 20px'>学生生日:</font><input style='margin-left: 15px;' type=\"text\" name=\"vauthor\" id=\"vauthor\" onblur=\"checkInput('vauthor')\" value='" + data.data.selectVideoByvid.vauthor + "'>"
+                    html += "<span id=\"vauthorTitle\"></span><br/>"
+                    html += "<input id='vid' type='hidden' value='" + data.data.selectVideoByvid.vid + "'>"
+                    html += "<button onclick=\"isUpdateVideo()\" style='margin-top: 15px;text-align: center;margin-left: 124px'>修改视频信息</button></div>"
+                    $(".right").append(html);
+                }
+            })
+        }
+
+        function isUpdateVideo() {
+            if (checkInput('vname') && checkInput('vauthor')) {
+                $.ajax({
+                    type: 'post',
+                    url: './updateVideo',
+                    timeout: 10000,
+                    data: {
+                        "vname": $("#vname").val().trim(),
+                        "vauthor": $("#vauthor").val().trim(),
+                        "vid": $("#vid").val().trim()
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.code == 20000) {
+                            alert("修改成功");
+                            SelectVideoMag();
+                        } else {
+                            alert("修改失败");
+                            SelectVideoMag();
+                        }
+                    }
+                })
+            }
+        }
+
+        // ---------------------------------------------------------------------------------------------------------
+        function SelectMessageMag() {
+            $.ajax({
+                type: 'get',
+                url: './selectMessage',
+                timeout: 10000,
+                data: {},
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data)
+                    $('.right').html("")
+                    var html = "<table cellpadding= '0' cellspacing= '0'  border=\"1\" align= 'center' id='tableAdmin'>";
+                    html += "<tr align='center'><td>序号</td><td>学生问题</td><td>老师回答</td><td>回答老师</td><td>操作</td></tr>"
+                    if (data.code == 20000) {
+                        $.each(data.data.messages, function (i, comment) {
+                            html += "<tr align='center'><td>" + comment['mid'] + "</td><td>" + comment['mquestion'] + "</td><td><textarea id='textareaMas' style='width: 255px;height: 101px'>" + comment['manswers'] + "</textarea></td><td>" + comment['teacher']['tname'] + "</td>";
+                            html += "<td ><a href='#' onclick='isDeleteMessage(" + comment.mid + ")'><font color='red'>删除问答信息</font></a>&nbsp;&nbsp;|&nbsp;&nbsp;";
+                            if (comment['manswers'] == "") {
+                                html += " <a href='#' onclick='UpdataMessageMag(" + comment.mid + ")'><font color='red'>问答问题</font></a></td>"
+                            } else {
+                                html += " <a href='#' onclick='UpdataMessageMag(" + comment.mid + ")'><font color='red'>修改问题答案</font></a></td>"
+                            }
+                        })
+                        html += "</tr></table>";
+                    } else {
+                        alert(data.message);
+                    }
+                    $(".right").append(html);
+                }
+
+
+            })
+        }
+
+        function isDeleteMessage(mid) {
+            $.ajax({
+                type: 'post',
+                url: './deleteMessage',
+                timeout: 10000,
+                data: {
+                    "mid": mid
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.code == 20000) {
+                        alert("删除成功");
+                        SelectMessageMag()
+                    } else {
+                        alert("删除失败");
+                        SelectMessageMag()
+                    }
+                }
+            })
+        }
 
     </script>
 </head>
@@ -123,18 +456,17 @@
             <div id="menus">
                 <h3>教学课件管理</h3>
                 <div class="m" style="display:block;">
-                    <div onclick="SelectLoginMag()">查看教学课件信息</div>
-                    <div onclick="InsertLoginMag()">新增教学课件信息</div>
+                    <div onclick="SelectCoursewareMag()">查看教学课件信息</div>
+                    <div onclick="InsertCourseware()">新增教学课件信息</div>
                 </div>
                 <h3>教学视频管理</h3>
                 <div class="m" style="display:block;">
-                    <div onclick="SelectStudentMag()">查看教学视频信息</div>
-                    <div onclick="InsertStudent()">新增教学视频信息</div>
+                    <div onclick="SelectVideoMag()">查看教学视频信息</div>
+                    <div onclick="InsertVideo()">新增教学视频信息</div>
                 </div>
                 <h3>师生交流管理</h3>
                 <div class="m" style="display:block;">
-                    <div onclick="SelectTeacherMag()">查看留言信息</div>
-                    <div onclick="InsertTeacher()">新增留言信息</div>
+                    <div onclick="SelectMessageMag()">查看留言信息</div>
                 </div>
             </div>
         </div>
@@ -143,6 +475,6 @@
         </div>
     </div>
 </div>
-<div id="foot">管理员</div>
+<div id="foot">老师</div>
 </body>
 </html>
