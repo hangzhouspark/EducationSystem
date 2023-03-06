@@ -16,4 +16,18 @@ public interface MessageMapper {
      *
      */
     public int deleteMessage(Message entity);
+
+    /**
+     * 根据ID查询
+     */
+    public Message selectMessageBymid(Message entity);
+
+
+    /**
+     * 修改答案
+     * @param entity
+     * @return
+     */
+    public int updateMessage(Message entity);
+
 }

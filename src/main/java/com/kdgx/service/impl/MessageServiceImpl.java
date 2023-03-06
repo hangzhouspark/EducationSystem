@@ -22,4 +22,15 @@ public class MessageServiceImpl implements MessageService {
     public int deleteMessage(Message entity) {
         return messageMapper.deleteMessage(entity);
     }
+
+    @Override
+    public Message selectMessageBymid(Message entity) {
+        return messageMapper.selectMessageBymid(entity);
+    }
+
+
+    @Override
+    public int updateMessage(Message entity) {
+        return messageMapper.updateMessage(entity);
+    }
 }

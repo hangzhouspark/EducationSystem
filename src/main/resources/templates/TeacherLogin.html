@@ -405,9 +405,9 @@
                             html += "<tr align='center'><td>" + comment['mid'] + "</td><td>" + comment['mquestion'] + "</td><td><textarea id='textareaMas' style='width: 255px;height: 101px'>" + comment['manswers'] + "</textarea></td><td>" + comment['teacher']['tname'] + "</td>";
                             html += "<td ><a href='#' onclick='isDeleteMessage(" + comment.mid + ")'><font color='red'>删除问答信息</font></a>&nbsp;&nbsp;|&nbsp;&nbsp;";
                             if (comment['manswers'] == "") {
-                                html += " <a href='#' onclick='UpdataMessageMag(" + comment.mid + ")'><font color='red'>问答问题</font></a></td>"
+                                html += " <a href='#' onclick='UpdataMessage(" + comment.mid + ")'><font color='red'>问答问题</font></a></td>"
                             } else {
-                                html += " <a href='#' onclick='UpdataMessageMag(" + comment.mid + ")'><font color='red'>修改问题答案</font></a></td>"
+                                html += " <a href='#' onclick='UpdataMessage(" + comment.mid + ")'><font color='red'>修改问题答案</font></a></td>"
                             }
                         })
                         html += "</tr></table>";
@@ -440,6 +440,60 @@
                     }
                 }
             })
+        }
+
+        /**
+         * 回显答案信息
+         * @constructor
+         */
+        function UpdataMessage(mid) {
+            $.ajax({
+                type: 'get',
+                url: './selectMessageBymid',
+                timeout: 10000,
+                data: {
+                    "mid": mid
+                },
+                dataType: 'json',
+                success: function (data) {
+                    //清空right页面
+                    $('.right').html("")
+                    var html = "<div style='margin-top: 5px'><font style='font-size: 20px'>答案:</font><textarea style='margin-left: 15px;width: 538px;height: 163px' type=\"text\" name=\"manswers\" id=\"manswers\" onblur=\"checkInput('manswers')\">" + data.data.selectMessageBymid.manswers + "</textarea>"
+                    html += "<span id=\"manswersTitle\"></span><br/>"
+                    html += "<input id='mid' type='hidden' value='" + data.data.selectMessageBymid.mid + "'>"
+                    html += "<button onclick=\"isUpdateMessage()\" style='margin-top: 15px;text-align: center;margin-left: 124px'>修改答案</button></div>"
+                    $(".right").append(html);
+                }
+            })
+        }
+
+        /**
+         * 新增/修改答案
+         */
+        function isUpdateMessage() {
+            if (checkInput('manswers')) {
+                $.ajax({
+                    type: 'post',
+                    url: './updateMessage',
+                    timeout: 10000,
+                    data: {
+                        "mid": $("#mid").val().trim(),
+                        "manswers": $("#manswers").val().trim()
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.code == 20000) {
+                            alert("修改成功");
+                            SelectMessageMag();
+                        } else {
+                            alert("修改失败");
+                            SelectMessageMag();
+                        }
+                    }
+
+
+                })
+            }
         }
 
     </script>

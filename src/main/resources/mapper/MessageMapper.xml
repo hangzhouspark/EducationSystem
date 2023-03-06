@@ -13,7 +13,11 @@
         select message.mid, message.mquestion, message.manswers, teacher.tname
         from message,
              teacher
-        where message.tid = teacher.tid;
+        where message.tid = teacher.tid
+    </select>
+
+    <select id="selectMessageBymid" resultMap="messageTid">
+        select * from message where mid = #{mid};
     </select>
 
     <delete id="deleteMessage" parameterType="com.kdgx.entity.Message">
@@ -21,5 +25,11 @@
         from message
         where mid = #{mid}
     </delete>
+
+    <update id="updateMessage" parameterType="com.kdgx.entity.Message">
+        update message
+        set manswers = #{manswers}
+        where mid = #{mid}
+    </update>
 
 </mapper>
