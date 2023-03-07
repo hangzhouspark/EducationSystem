@@ -388,6 +388,10 @@
         }
 
         // ---------------------------------------------------------------------------------------------------------
+        /**
+         * 查询回复列表
+         * @constructor
+         */
         function SelectMessageMag() {
             $.ajax({
                 type: 'get',
@@ -402,7 +406,7 @@
                     html += "<tr align='center'><td>序号</td><td>学生问题</td><td>老师回答</td><td>回答老师</td><td>操作</td></tr>"
                     if (data.code == 20000) {
                         $.each(data.data.messages, function (i, comment) {
-                            html += "<tr align='center'><td>" + comment['mid'] + "</td><td>" + comment['mquestion'] + "</td><td><textarea id='textareaMas' style='width: 255px;height: 101px'>" + comment['manswers'] + "</textarea></td><td>" + comment['teacher']['tname'] + "</td>";
+                            html += "<tr align='center'><td>" + comment['mid'] + "</td><td>" + comment['mquestion'] + "</td><td>" + comment['manswers'] + "</td><td>" + comment['teacher']['tname'] + "</td>";
                             html += "<td ><a href='#' onclick='isDeleteMessage(" + comment.mid + ")'><font color='red'>删除问答信息</font></a>&nbsp;&nbsp;|&nbsp;&nbsp;";
                             if (comment['manswers'] == "") {
                                 html += " <a href='#' onclick='UpdataMessage(" + comment.mid + ")'><font color='red'>问答问题</font></a></td>"
@@ -416,8 +420,6 @@
                     }
                     $(".right").append(html);
                 }
-
-
             })
         }
 

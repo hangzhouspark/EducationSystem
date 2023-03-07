@@ -34,6 +34,29 @@ public class MessageController {
         return R.ok().data("messages", messages);
     }
 
+    /**
+     * 添加问答记录
+     *
+     * @param entity
+     * @return
+     */
+    @RequestMapping("insertQuesByStudent")
+    @ResponseBody
+    public R insertQuesByStudent(Message entity) {
+        int i = messageService.insertQuesByStudent(entity);
+        if (i > 0) {
+            return R.ok().message("添加成功");
+        }
+        return R.error().message("添加失败");
+    }
+
+
+    /**
+     * 删除问答记录
+     *
+     * @param entity
+     * @return
+     */
     @RequestMapping("deleteMessage")
     @ResponseBody
     public R deleteMessage(Message entity) {
@@ -46,6 +69,7 @@ public class MessageController {
 
     /**
      * 回显答案
+     *
      * @param entity
      * @return
      */
@@ -58,6 +82,7 @@ public class MessageController {
 
     /**
      * 回答答案
+     *
      * @param entity
      * @return
      */

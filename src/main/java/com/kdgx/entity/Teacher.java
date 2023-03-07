@@ -23,6 +23,8 @@ public class Teacher implements Serializable {
 
     private String tdepart;
 
+    private String tnumber;
+
 
 }
 

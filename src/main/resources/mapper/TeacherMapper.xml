@@ -7,8 +7,8 @@
     </select>
 
     <insert id="insertTeacher" parameterType="com.kdgx.entity.Teacher">
-        insert into Teacher(tname, tsex, tbirthday, tdepart)
-        values (#{tname}, #{tsex}, #{tbirthday}, #{tdepart})
+        insert into Teacher(tname, tsex, tbirthday, tdepart, tnumber)
+        values (#{tname}, #{tsex}, #{tbirthday}, #{tdepart}, #{tnumber})
     </insert>
 
     <delete id="deleteTeacher" parameterType="com.kdgx.entity.Teacher">
@@ -28,7 +28,8 @@
         set tname     = #{tname},
             tsex      = #{tsex},
             tbirthday = #{tbirthday},
-            tdepart    = #{tdepart}
+            tdepart   = #{tdepart},
+            tnumber = #{tnumber}
         where tid = #{tid}
     </update>
 

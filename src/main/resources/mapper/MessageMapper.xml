@@ -20,6 +20,10 @@
         select * from message where mid = #{mid};
     </select>
 
+    <insert id="insertQuesByStudent" parameterType="com.kdgx.entity.Message">
+        insert into message(mquestion,tid) values (#{mquestion},#{tid})
+    </insert>
+
     <delete id="deleteMessage" parameterType="com.kdgx.entity.Message">
         delete
         from message

@@ -31,4 +31,9 @@ public interface MessageService {
      * @return
      */
     public int updateMessage(Message entity);
+
+    /**
+     * 添加问题
+     */
+    public int insertQuesByStudent(Message entity);
 }

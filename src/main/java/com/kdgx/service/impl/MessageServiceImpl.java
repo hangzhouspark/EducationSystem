@@ -33,4 +33,9 @@ public class MessageServiceImpl implements MessageService {
     public int updateMessage(Message entity) {
         return messageMapper.updateMessage(entity);
     }
+
+    @Override
+    public int insertQuesByStudent(Message entity) {
+        return messageMapper.insertQuesByStudent(entity);
+    }
 }
