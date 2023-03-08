@@ -224,7 +224,7 @@
                             SelectLoginMag();
                         } else {
                             alert("添加失败");
-                            InsertLoginMag();
+                            InsertLogin();
                         }
                     }
                 })
@@ -236,29 +236,34 @@
          */
         function isInsertStudent() {
             if (checkInput('sname') && checkInput('sbirthday') && checkInput('sclass')) {
-                $.ajax({
-                    type: 'post',
-                    url: './insertStudent',
-                    timeout: 10000,
-                    data: {
-                        "sname": $("#sname").val().trim(),
-                        "sbirthday": $("#sbirthday").val().trim(),
-                        "sclass": $("#sclass").val().trim(),
-                        "ssex": $('#testSelect option:selected').val()
-                    },
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data.code == 20000) {
-                            alert("添加成功");
-                            SelectStudentMag();
-                        } else {
-                            alert("添加失败");
-                            InsertStudent();
+                var reg = /^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
+                var regExp = new RegExp(reg);
+                if (!regExp.test($("#sbirthday").val())) {
+                    alert("日期格式不正确，正确格式为：xxxx-xx-xx");
+                } else {
+                    $.ajax({
+                        type: 'post',
+                        url: './insertStudent',
+                        timeout: 10000,
+                        data: {
+                            "sname": $("#sname").val().trim(),
+                            "sbirthday": $("#sbirthday").val().trim(),
+                            "sclass": $("#sclass").val().trim(),
+                            "ssex": $('#testSelect option:selected').val()
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.code == 20000) {
+                                alert("添加成功");
+                                SelectStudentMag();
+                            } else {
+                                alert("添加失败");
+                                InsertStudent();
+                            }
                         }
-                    }
+                    })
+                }
 
-
-                })
             }
         }
 
@@ -267,29 +272,34 @@
          */
         function isInsertTeacher() {
             if (checkInput('tname') && checkInput('tbirthday') && checkInput('tdepart')) {
-                $.ajax({
-                    type: 'post',
-                    url: './insertTeacher',
-                    timeout: 10000,
-                    data: {
-                        "tname": $("#tname").val().trim(),
-                        "tbirthday": $("#tbirthday").val().trim(),
-                        "tdepart": $("#tdepart").val().trim(),
-                        "tsex": $('#testSelect option:selected').val()
-                    },
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data.code == 20000) {
-                            alert("添加成功");
-                            SSelectTeacherMag();
-                        } else {
-                            alert("添加失败");
-                            InsertTeacher();
+                var reg = /^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
+                var regExp = new RegExp(reg);
+                if (!regExp.test($("#tbirthday").val())) {
+                    alert("日期格式不正确，正确格式为：xxxx-xx-xx");
+                } else {
+                    $.ajax({
+                        type: 'post',
+                        url: './insertTeacher',
+                        timeout: 10000,
+                        data: {
+                            "tname": $("#tname").val().trim(),
+                            "tbirthday": $("#tbirthday").val().trim(),
+                            "tdepart": $("#tdepart").val().trim(),
+                            "tsex": $('#testSelect option:selected').val()
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.code == 20000) {
+                                alert("添加成功");
+                                SelectTeacherMag();
+                            } else {
+                                alert("添加失败");
+                                InsertTeacher();
+                            }
                         }
-                    }
+                    })
+                }
 
-
-                })
             }
         }
 
@@ -360,10 +370,10 @@
                 success: function (data) {
                     if (data.code == 20000) {
                         alert("删除成功");
-                        SSelectTeacherMag()
+                        SelectTeacherMag()
                     } else {
                         alert("删除失败");
-                        SSelectTeacherMag()
+                        SelectTeacherMag()
                     }
                 }
             })
@@ -521,28 +531,35 @@
          */
         function isUpdateStudent() {
             if (checkInput('sname') && checkInput('sbirthday') && checkInput('sclass')) {
-                $.ajax({
-                    type: 'post',
-                    url: './updateStudent',
-                    timeout: 10000,
-                    data: {
-                        "sid": $("#sid").val().trim(),
-                        "sname": $("#sname").val().trim(),
-                        "sbirthday": $("#sbirthday").val().trim(),
-                        "sclass": $("#sclass").val().trim(),
-                        "ssex": $('#testSelect option:selected').val()
-                    },
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data.code == 20000) {
-                            alert("修改成功");
-                            SelectStudentMag();
-                        } else {
-                            alert("修改失败");
-                            SelectStudentMag();
+                var reg = /^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
+                var regExp = new RegExp(reg);
+                if (!regExp.test($("#sbirthday").val())) {
+                    alert("日期格式不正确，正确格式为：xxxx-xx-xx");
+                } else {
+                    $.ajax({
+                        type: 'post',
+                        url: './updateStudent',
+                        timeout: 10000,
+                        data: {
+                            "sid": $("#sid").val().trim(),
+                            "sname": $("#sname").val().trim(),
+                            "sbirthday": $("#sbirthday").val().trim(),
+                            "sclass": $("#sclass").val().trim(),
+                            "ssex": $('#testSelect option:selected').val()
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.code == 20000) {
+                                alert("修改成功");
+                                SelectStudentMag();
+                            } else {
+                                alert("修改失败");
+                                SelectStudentMag();
+                            }
                         }
-                    }
-                })
+                    })
+                }
+
             }
         }
 
@@ -551,29 +568,56 @@
          */
         function isUpdateTeacher() {
             if (checkInput('tname') && checkInput('tbirthday') && checkInput('tdepart')) {
-                $.ajax({
-                    type: 'post',
-                    url: './updateTeacher',
-                    timeout: 10000,
-                    data: {
-                        "tid": $("#tid").val().trim(),
-                        "tname": $("#tname").val().trim(),
-                        "tbirthday": $("#tbirthday").val().trim(),
-                        "tdepart": $("#tdepart").val().trim(),
-                        "tsex": $('#testSelect option:selected').val()
-                    },
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data.code == 20000) {
-                            alert("修改成功");
-                            SSelectTeacherMag();
-                        } else {
-                            alert("修改失败");
-                            SSelectTeacherMag();
+                var reg = /^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
+                var regExp = new RegExp(reg);
+                if (!regExp.test($("#tbirthday").val())) {
+                    alert("日期格式不正确，正确格式为：xxxx-xx-xx");
+                } else {
+                    $.ajax({
+                        type: 'post',
+                        url: './updateTeacher',
+                        timeout: 10000,
+                        data: {
+                            "tid": $("#tid").val().trim(),
+                            "tname": $("#tname").val().trim(),
+                            "tbirthday": $("#tbirthday").val().trim(),
+                            "tdepart": $("#tdepart").val().trim(),
+                            "tsex": $('#testSelect option:selected').val()
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.code == 20000) {
+                                alert("修改成功");
+                                SelectTeacherMag();
+                            } else {
+                                alert("修改失败");
+                                SelectTeacherMag();
+                            }
                         }
-                    }
-                })
+                    })
+                }
+
             }
+        }
+
+        /**
+         * 退出登录
+         */
+        function loginOut(){
+            $.ajax({
+                type: 'post',
+                url: './loginOut',
+                timeout: 10000,
+                data: {},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.code == 20000) {
+                        window.location.href="LoginPage.html"
+                    } else {
+                        alert("退出失败");
+                    }
+                }
+            })
         }
 
 
@@ -582,7 +626,7 @@
 <body>
 <div id="top">
     <div class="l">管理员后台管理</div>
-    <div class="r"><strong id="strong1"></strong>，欢迎您！ | <a href="http://localhost:8001">退出</a></div>
+    <div class="r"><strong id="strong1"></strong>，欢迎您！ | <a href="#" onclick="loginOut()">退出</a></div>
 </div>
 <div id="center">
     <div id="all">

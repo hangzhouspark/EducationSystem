@@ -257,6 +257,26 @@
                 })
             }
         }
+
+        /**
+         * 退出登录
+         */
+        function loginOut() {
+            $.ajax({
+                type: 'post',
+                url: './loginOut',
+                timeout: 10000,
+                data: {},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.code == 20000) {
+                        window.location.href = "LoginPage.html"
+                    } else {
+                        alert("退出失败");
+                    }
+                }
+            })
+        }
     </script>
 </head>
 <body>
@@ -278,7 +298,7 @@
                                                                                                 onclick="updateStudentMySelf()">修改密码</a>
         </div>
         <div style="width:16%;height:100%;float: left;text-align: center;line-height: 80px;"><a
-                href="http://localhost:8001">退出登录</a>
+                href="#" onclick="loginOut()">退出登录</a>
         </div>
     </div>
 </div>

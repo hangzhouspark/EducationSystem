@@ -498,13 +498,33 @@
             }
         }
 
+        /**
+         * 退出登录
+         */
+        function loginOut(){
+            $.ajax({
+                type: 'post',
+                url: './loginOut',
+                timeout: 10000,
+                data: {},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.code == 20000) {
+                        window.location.href="LoginPage.html"
+                    } else {
+                        alert("退出失败");
+                    }
+                }
+            })
+        }
+
     </script>
 </head>
 <body>
 <div id="top">
     <div class="l">老师后台管理</div>
     <div class="r"><strong id="strong1"></strong>，欢迎您！ | <a href="#" onclick="updateTeacherMySelf()">修改密码</a>
-        | <a href="http://localhost:8001">退出</a></div>
+        | <a href="#" onclick="loginOut()">退出</a></div>
 </div>
 <div id="center">
     <div id="all">
