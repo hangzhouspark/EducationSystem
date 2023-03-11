@@ -200,9 +200,9 @@
                 success: function (data) {
                     //清空right页面
                     $('.right').html("")
-                    var html = "<div style='margin-top: 5px'><font style='font-size: 20px'>学生姓名:</font><input style='margin-left: 15px;' type=\"text\" name=\"cname\" id=\"cname\" onblur=\"checkInput('cname')\" value='" + data.data.selectCoursewareBycid.cname + "'>"
+                    var html = "<div style='margin-top: 5px'><font style='font-size: 20px'>课件名:</font><input style='margin-left: 15px;' type=\"text\" name=\"cname\" id=\"cname\" onblur=\"checkInput('cname')\" value='" + data.data.selectCoursewareBycid.cname + "'>"
                     html += "<span id=\"cnameTitle\"></span><br/>"
-                    html += "<font style='font-size: 20px'>学生生日:</font><input style='margin-left: 15px;' type=\"text\" name=\"cauthor\" id=\"cauthor\" onblur=\"checkInput('cauthor')\" value='" + data.data.selectCoursewareBycid.cauthor + "'>"
+                    html += "<font style='font-size: 20px'>课件作者:</font><input style='margin-left: 15px;' type=\"text\" name=\"cauthor\" id=\"cauthor\" onblur=\"checkInput('cauthor')\" value='" + data.data.selectCoursewareBycid.cauthor + "'>"
                     html += "<span id=\"cauthorTitle\"></span><br/>"
                     html += "<input id='cid' type='hidden' value='" + data.data.selectCoursewareBycid.cid + "'>"
                     html += "<button onclick=\"isUpdateCourseware()\" style='margin-top: 15px;text-align: center;margin-left: 124px'>修改课件信息</button></div>"
@@ -351,9 +351,9 @@
                 success: function (data) {
                     //清空right页面
                     $('.right').html("")
-                    var html = "<div style='margin-top: 5px'><font style='font-size: 20px'>学生姓名:</font><input style='margin-left: 15px;' type=\"text\" name=\"vname\" id=\"vname\" onblur=\"checkInput('vname')\" value='" + data.data.selectVideoByvid.vname + "'>"
+                    var html = "<div style='margin-top: 5px'><font style='font-size: 20px'>视频名:</font><input style='margin-left: 15px;' type=\"text\" name=\"vname\" id=\"vname\" onblur=\"checkInput('vname')\" value='" + data.data.selectVideoByvid.vname + "'>"
                     html += "<span id=\"vnameTitle\"></span><br/>"
-                    html += "<font style='font-size: 20px'>学生生日:</font><input style='margin-left: 15px;' type=\"text\" name=\"vauthor\" id=\"vauthor\" onblur=\"checkInput('vauthor')\" value='" + data.data.selectVideoByvid.vauthor + "'>"
+                    html += "<font style='font-size: 20px'>视频作者:</font><input style='margin-left: 15px;' type=\"text\" name=\"vauthor\" id=\"vauthor\" onblur=\"checkInput('vauthor')\" value='" + data.data.selectVideoByvid.vauthor + "'>"
                     html += "<span id=\"vauthorTitle\"></span><br/>"
                     html += "<input id='vid' type='hidden' value='" + data.data.selectVideoByvid.vid + "'>"
                     html += "<button onclick=\"isUpdateVideo()\" style='margin-top: 15px;text-align: center;margin-left: 124px'>修改视频信息</button></div>"

@@ -92,7 +92,8 @@
                                 html += "<td>未知性别</td>"
                             }
                             html += "<td>" + comment['sbirthday'] + "</td><td>" + comment['sclass'] + "</td>"
-                            html += "<td><a href='#' onclick='isDeleteStudent(" + comment.sid + ")'><font color='red'>删除学生信息</font></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href='#' onclick='UpdataStudent(" + comment.sid + ")'><font color='red'>修改学生信息</font></a></td>";
+                            html += "<td><a href='#' onclick='isDeleteStudent(" + comment.sid + ")'><font color='red'>删除学生信息</font></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href='#'" +
+                                " onclick='UpdataStudent(" + comment.sid + ")'><font color='red'>修改学生信息</font></a></td>";
                         })
                         html += "</tr></table>";
                     } else {
