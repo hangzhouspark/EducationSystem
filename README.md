@@ -1,4 +1,13 @@
 # 📚 智能教学辅助系统（EducationSystem）
+![Java 8](https://img.shields.io/badge/Java-8-orange)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-Web%20MVC-brightgreen)
+![MyBatis](https://img.shields.io/badge/MyBatis-ORM-important)
+![MySQL](https://img.shields.io/badge/MySQL-Database-blue)
+![Thymeleaf/JSP](https://img.shields.io/badge/Thymeleaf%2FJSP-View-yellow)
+![Maven](https://img.shields.io/badge/Maven-Build-lightgrey)
+![GitHub last commit](https://img.shields.io/github/last-commit/hangzhouspark/EducationSystem)
+![GitHub stars](https://img.shields.io/github/stars/hangzhouspark/EducationSystem)
+
 
 > 一个把「计算机系统功能」与「教师课堂讲授」相结合的在线教学辅助平台，为学生课后主动学习与师生互动提供支撑。
 
